@@ -1,0 +1,116 @@
+[config]
+type = "pipeline"
+chartbook_format_version = "0.0.2"
+
+[site]
+title = "Corporate Bond Returns"
+author = "Jeremy Bejarano"
+copyright = "2025"
+logo_path = ""
+favicon_path = ""
+
+[pipeline]
+id = "corp_bond_returns"
+pipeline_name = "Corporate Bond Returns"
+pipeline_description = "Corporate bond returns from OpenBondAssetPricing.com (TRACE data), including individual bond returns and credit spread-sorted portfolios"
+lead_pipeline_developer = "Jeremy Bejarano"
+contributors = ["Jeremy Bejarano"]
+runs_on = "Windows/Linux/MacOS"
+git_repo_URL = "https://github.com/ftsfr/corp_bond_returns"
+README_file_path = "./README.md"
+
+[notebooks]
+
+[notebooks.summary_corp_bond_returns]
+notebook_name = "summary_corp_bond_returns"
+notebook_description = "Summary statistics and visualization of corporate bond returns"
+notebook_path = "_output/_notebook_build/summary_corp_bond_returns.ipynb"
+is_publishable = true
+
+[charts]
+
+[dataframes]
+
+[dataframes.ftsfr_corp_bond_returns]
+dataframe_name = "ftsfr_corp_bond_returns"
+short_description_df = "Individual corporate bond monthly returns in long format"
+data_sources = ["OpenBondAssetPricing.com"]
+data_providers = ["OpenBondAssetPricing"]
+need_to_contact_provider = ["no"]
+data_on_pre_approved_list = ["No"]
+links_to_data_providers = ["https://openbondassetpricing.com/"]
+topic_tags = ["corporate", "bonds", "returns", "credit"]
+type_of_data_access = ["Public"]
+data_license = "Public"
+license_expiration_date = ""
+provider_contact_info = ""
+restriction_on_use = "No"
+how_is_pulled = "Downloaded from OpenBondAssetPricing.com"
+path_to_parquet_data = "./_data/ftsfr_corp_bond_returns.parquet"
+path_to_excel_data = ""
+date_col = "ds"
+dataframe_docs_str = """
+## Individual Corporate Bond Monthly Returns
+
+This dataset contains monthly returns for individual corporate bonds from TRACE data.
+
+### Columns
+
+| Column | Description |
+|--------|-------------|
+| unique_id | Bond CUSIP identifier |
+| ds | Month-end date |
+| y | Monthly return (value-weighted) |
+
+### Data Source
+
+OpenBondAssetPricing.com (TRACE data with MMN adjustments)
+
+### Time Period
+
+2002 - present
+"""
+
+[dataframes.ftsfr_corp_bond_portfolio_returns]
+dataframe_name = "ftsfr_corp_bond_portfolio_returns"
+short_description_df = "Corporate bond portfolio returns grouped by credit spread deciles"
+data_sources = ["OpenBondAssetPricing.com"]
+data_providers = ["OpenBondAssetPricing"]
+need_to_contact_provider = ["no"]
+data_on_pre_approved_list = ["No"]
+links_to_data_providers = ["https://openbondassetpricing.com/"]
+topic_tags = ["corporate", "bonds", "portfolios", "returns", "credit"]
+type_of_data_access = ["Public"]
+data_license = "Public"
+license_expiration_date = ""
+provider_contact_info = ""
+restriction_on_use = "No"
+how_is_pulled = "Downloaded from OpenBondAssetPricing.com"
+path_to_parquet_data = "./_data/ftsfr_corp_bond_portfolio_returns.parquet"
+path_to_excel_data = ""
+date_col = "ds"
+dataframe_docs_str = """
+## Corporate Bond Portfolio Returns
+
+This dataset contains portfolio returns grouped by credit spread deciles.
+
+### Columns
+
+| Column | Description |
+|--------|-------------|
+| unique_id | Credit spread decile (1-10) |
+| ds | Month-end date |
+| y | Value-weighted monthly return for the decile |
+
+### Credit Spread Deciles
+
+| Decile | Description |
+|--------|-------------|
+| 1 | Lowest credit spread (safest bonds) |
+| 2-9 | Intermediate credit spreads |
+| 10 | Highest credit spread (riskiest bonds) |
+
+### Data Source
+
+OpenBondAssetPricing.com (TRACE data with MMN adjustments)
+"""
