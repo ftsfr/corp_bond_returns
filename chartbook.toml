@@ -24,10 +24,32 @@ README_file_path = "./README.md"
 [notebooks.summary_corp_bond_returns]
 notebook_name = "summary_corp_bond_returns"
 notebook_description = "Summary statistics and visualization of corporate bond returns"
-notebook_path = "_output/_notebook_build/summary_corp_bond_returns.ipynb"
+notebook_path = "_output/summary_corp_bond_returns.ipynb"
 is_publishable = true
 
 [charts]
+
+[charts.corp_bond_returns_replication]
+chart_name = "Corporate Bond Portfolio Returns"
+short_description_chart = "Corporate bond portfolio returns by credit spread decile from TRACE data"
+dataframe_id = "ftsfr_corp_bond_portfolio_returns"
+path_to_html_chart = "./_output/corp_bond_returns_replication.html"
+path_to_excel_chart = ""
+topic_tags = ["corporate", "bonds", "returns", "credit", "replication"]
+past_publications = ["He, Kelly, and Manela (2017) - Intermediary Asset Pricing", "Dickerson, Mueller, and Robotti (2023) - Priced Risk in Corporate Bonds"]
+chart_docs_str = """
+## Corporate Bond Portfolio Returns
+
+Monthly returns for portfolios sorted by credit spread decile.
+
+### Data Source
+
+OpenBondAssetPricing.com (TRACE data with MMN adjustments)
+
+### Portfolio Construction
+
+Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
+"""
 
 [dataframes]
 

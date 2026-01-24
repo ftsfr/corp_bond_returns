@@ -112,7 +112,7 @@ def task_create_ftsfr_datasets():
 def task_run_notebooks():
     """Execute and convert summary notebooks."""
     notebooks = ["src/summary_corp_bond_returns_ipynb.py"]
-    notebook_build_dir = OUTPUT_DIR / "_notebook_build"
+    notebook_build_dir = OUTPUT_DIR
 
     for notebook_py in notebooks:
         notebook_ipynb = notebook_py.replace("_ipynb.py", ".ipynb")
@@ -148,7 +148,7 @@ def task_generate_pipeline_site():
         "actions": ["chartbook build -f"],
         "file_dep": [
             "chartbook.toml",
-            OUTPUT_DIR / "_notebook_build" / "summary_corp_bond_returns.ipynb",
+            OUTPUT_DIR / "summary_corp_bond_returns.ipynb",
         ],
         "targets": [BASE_DIR / "docs" / "index.html"],
         "verbosity": 2,

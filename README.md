@@ -40,3 +40,19 @@ Bonds are sorted into 10 deciles based on credit spread:
 - Decile 10: Highest credit spread (riskiest bonds)
 
 Returns are value-weighted within each decile.
+
+## Academic References
+
+### Primary Papers
+
+- **He, Kelly, and Manela (2017)** - "Intermediary Asset Pricing: New Evidence from Many Asset Classes"
+  - Journal of Financial Economics
+  - Corporate bonds as test assets for intermediary capital factor
+
+- **Dickerson, Mueller, and Robotti (2023)** - "Priced Risk in Corporate Bonds"
+  - Critical examination of corporate bond factor models
+
+### Key Findings
+
+- Intermediary capital shocks explain cross-sectional variation in corporate bond returns
+- Credit spread-sorted portfolios capture systematic risk in corporate bonds

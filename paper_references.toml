@@ -1,0 +1,23 @@
+# Paper References for Corporate Bond Returns Module
+
+[He2017]
+title = "Intermediary Asset Pricing: New Evidence from Many Asset Classes"
+authors = "Zhiguo He, Bryan Kelly, and Asaf Manela"
+year = 2017
+description = "The paper investigates the role of financial intermediaries in asset pricing across various asset classes including corporate bonds."
+empirical_facts = [
+    "Shocks to the equity capital ratio of primary dealers explain cross-sectional differences in expected returns.",
+    "Primary dealers are identified as marginal investors in multiple asset markets, influencing asset prices.",
+]
+data_sources = ["New York Fed's primary dealer list", "CRSP/Compustat data", "Corporate bond data"]
+
+[Dickerson2023]
+title = "Priced Risk in Corporate Bonds"
+authors = "Alex Dickerson, Cesare Robotti, and Giulio Rossetti"
+year = 2023
+description = "The paper critically examines the effectiveness of multifactor models in explaining corporate bond returns."
+empirical_facts = [
+    "The bond market factor (MKTB) remains the primary source of systematic risk in corporate bonds.",
+    "Traded liquidity (LRF) is the only factor with nontrivial incremental explanatory power over the bond market factor.",
+]
+data_sources = ["Enhanced TRACE database", "Mergent Fixed Income Securities Database (FISD)"]
