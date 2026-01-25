@@ -142,6 +142,23 @@ def task_run_notebooks():
         }
 
 
+def task_generate_charts():
+    """Generate interactive HTML charts."""
+    return {
+        "actions": ["python src/generate_chart.py"],
+        "file_dep": [
+            "src/generate_chart.py",
+            DATA_DIR / "ftsfr_corp_bond_portfolio_returns.parquet",
+        ],
+        "targets": [
+            OUTPUT_DIR / "corp_bond_returns_replication.html",
+            OUTPUT_DIR / "corp_bond_cumulative_returns.html",
+        ],
+        "verbosity": 2,
+        "task_dep": ["create_ftsfr_datasets"],
+    }
+
+
 def task_generate_pipeline_site():
     """Generate the chartbook documentation site."""
     return {
@@ -149,7 +166,10 @@ def task_generate_pipeline_site():
         "file_dep": [
             "chartbook.toml",
             OUTPUT_DIR / "summary_corp_bond_returns.ipynb",
+            OUTPUT_DIR / "corp_bond_returns_replication.html",
+            OUTPUT_DIR / "corp_bond_cumulative_returns.html",
         ],
         "targets": [BASE_DIR / "docs" / "index.html"],
         "verbosity": 2,
+        "task_dep": ["run_notebooks", "generate_charts"],
     }

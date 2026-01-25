@@ -51,6 +51,28 @@ OpenBondAssetPricing.com (TRACE data with MMN adjustments)
 Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
 """
 
+[charts.corp_bond_cumulative_returns]
+chart_name = "Corporate Bond Portfolio Cumulative Returns"
+short_description_chart = "Cumulative returns showing growth of $1 invested in corporate bond portfolios"
+dataframe_id = "ftsfr_corp_bond_portfolio_returns"
+path_to_html_chart = "./_output/corp_bond_cumulative_returns.html"
+path_to_excel_chart = ""
+topic_tags = ["corporate", "bonds", "cumulative returns", "credit", "replication"]
+past_publications = ["He, Kelly, and Manela (2017) - Intermediary Asset Pricing", "Dickerson, Mueller, and Robotti (2023) - Priced Risk in Corporate Bonds"]
+chart_docs_str = """
+## Corporate Bond Portfolio Cumulative Returns
+
+Cumulative returns showing growth of $1 invested in corporate bond portfolios sorted by credit spread decile.
+
+### Portfolio Construction
+
+Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
+
+### Calculation
+
+Cumulative return = Product of (1 + monthly return) over time
+"""
+
 [dataframes]
 
 [dataframes.ftsfr_corp_bond_returns]
