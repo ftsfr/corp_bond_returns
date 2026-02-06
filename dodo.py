@@ -4,8 +4,8 @@ dodo.py - Doit build automation for Corporate Bond Returns pipeline
 Run with: doit
 """
 
+import os
 import platform
-import subprocess
 import sys
 from pathlib import Path
 
@@ -19,47 +19,37 @@ OUTPUT_DIR = BASE_DIR / "_output"
 OS_TYPE = "nix" if platform.system() != "Windows" else "windows"
 
 
-def jupyter_execute_notebook(notebook):
-    """Execute a notebook and save the output in-place."""
-    subprocess.run(
-        [
-            "jupyter",
-            "nbconvert",
-            "--to",
-            "notebook",
-            "--execute",
-            "--inplace",
-            notebook,
-        ],
-        check=True,
-    )
+## Helpers for handling Jupyter Notebook tasks
+os.environ["PYDEVD_DISABLE_FILE_VALIDATION"] = "1"
 
 
-def jupyter_to_html(notebook, output_dir=OUTPUT_DIR):
-    """Convert a notebook to HTML."""
-    subprocess.run(
-        [
-            "jupyter",
-            "nbconvert",
-            "--to",
-            "html",
-            "--output-dir",
-            str(output_dir),
-            notebook,
-        ],
-        check=True,
-    )
+# fmt: off
+def jupyter_execute_notebook(notebook_path):
+    return f"jupyter nbconvert --execute --to notebook --ClearMetadataPreprocessor.enabled=True --inplace {notebook_path}"
+def jupyter_to_html(notebook_path, output_dir=OUTPUT_DIR):
+    return f"jupyter nbconvert --to html --output-dir={output_dir} {notebook_path}"
+# fmt: on
+
+
+def mv(from_path, to_path):
+    from_path = Path(from_path)
+    to_path = Path(to_path)
+    to_path.mkdir(parents=True, exist_ok=True)
+    if OS_TYPE == "nix":
+        command = f"mv {from_path} {to_path}"
+    else:
+        command = f"move {from_path} {to_path}"
+    return command
 
 
 def task_config():
     """Create necessary directories."""
+    def create_dirs():
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     return {
-        "actions": [
-            f"mkdir -p {DATA_DIR}" if OS_TYPE == "nix" else f"mkdir {DATA_DIR}",
-            f"mkdir -p {OUTPUT_DIR}" if OS_TYPE == "nix" else f"mkdir {OUTPUT_DIR}",
-        ],
+        "actions": [create_dirs],
         "targets": [DATA_DIR, OUTPUT_DIR],
-        "uptodate": [True],
         "verbosity": 2,
     }
 
@@ -109,36 +99,44 @@ def task_create_ftsfr_datasets():
     }
 
 
+notebook_tasks = {
+    "summary_corp_bond_returns_ipynb": {
+        "path": "./src/summary_corp_bond_returns_ipynb.py",
+        "file_dep": [
+            DATA_DIR / "ftsfr_corp_bond_returns.parquet",
+            DATA_DIR / "ftsfr_corp_bond_portfolio_returns.parquet",
+        ],
+        "targets": [],
+    },
+}
+notebook_files = []
+for notebook in notebook_tasks.keys():
+    pyfile_path = Path(notebook_tasks[notebook]["path"])
+    notebook_files.append(pyfile_path)
+
+
 def task_run_notebooks():
     """Execute and convert summary notebooks."""
-    notebooks = ["src/summary_corp_bond_returns_ipynb.py"]
-    notebook_build_dir = OUTPUT_DIR
-
-    for notebook_py in notebooks:
-        notebook_ipynb = notebook_py.replace("_ipynb.py", ".ipynb")
-        notebook_name = Path(notebook_ipynb).stem
-        notebook_build_path = notebook_build_dir / f"{notebook_name}.ipynb"
-
+    for notebook in notebook_tasks.keys():
+        pyfile_path = Path(notebook_tasks[notebook]["path"])
+        notebook_path = pyfile_path.with_suffix(".ipynb")
         yield {
-            "name": notebook_name,
+            "name": notebook,
             "actions": [
-                f"mkdir -p {notebook_build_dir}" if OS_TYPE == "nix" else f"mkdir {notebook_build_dir}",
-                f"ipynb-py-convert {notebook_py} {notebook_ipynb}",
-                lambda nb=notebook_ipynb: jupyter_execute_notebook(nb),
-                lambda nb=notebook_ipynb: jupyter_to_html(nb),
-                f"cp {notebook_ipynb} {notebook_build_path}",
+                f"jupytext --to notebook --output {notebook_path} {pyfile_path}",
+                jupyter_execute_notebook(notebook_path),
+                jupyter_to_html(notebook_path),
+                mv(notebook_path, OUTPUT_DIR),
             ],
             "file_dep": [
-                notebook_py,
-                DATA_DIR / "ftsfr_corp_bond_returns.parquet",
-                DATA_DIR / "ftsfr_corp_bond_portfolio_returns.parquet",
+                pyfile_path,
+                *notebook_tasks[notebook]["file_dep"],
             ],
             "targets": [
-                notebook_ipynb,
-                OUTPUT_DIR / f"{notebook_name}.html",
-                notebook_build_path,
+                OUTPUT_DIR / f"{notebook}.html",
+                *notebook_tasks[notebook]["targets"],
             ],
-            "verbosity": 2,
+            "clean": True,
         }
 
 
@@ -165,7 +163,7 @@ def task_generate_pipeline_site():
         "actions": ["chartbook build -f"],
         "file_dep": [
             "chartbook.toml",
-            OUTPUT_DIR / "summary_corp_bond_returns.ipynb",
+            *notebook_files,
             OUTPUT_DIR / "corp_bond_returns_replication.html",
             OUTPUT_DIR / "corp_bond_cumulative_returns.html",
         ],
