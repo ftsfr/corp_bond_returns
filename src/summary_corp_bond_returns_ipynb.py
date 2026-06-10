@@ -90,7 +90,7 @@ portfolio_stats
 # %%
 # Pivot for plotting
 df_pivot = df_portfolio.pivot(index="ds", columns="unique_id", values="y")
-df_pivot = df_pivot[sorted(df_pivot.columns, key=lambda x: int(x))]
+df_pivot = df_pivot[sorted(df_pivot.columns, key=lambda x: int(float(x)))]
 
 fig, ax = plt.subplots(figsize=(12, 6))
 for col in df_pivot.columns:
