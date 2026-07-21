@@ -1,99 +1,56 @@
-[config]
-type = "pipeline"
-chartbook_format_version = "0.0.2"
-
-[site]
-title = "Corporate Bond Returns"
-author = "Jeremy Bejarano"
+[project]
+name = "Corporate Bond Returns"
+description = "Corporate bond returns from OpenBondAssetPricing.com (TRACE data), including individual bond returns and credit spread-sorted portfolios"
+contributors = [
+    "Jeremy Bejarano",
+]
+repo_url = "https://github.com/ftsfr/corp_bond_returns"
 copyright = "2025"
-logo_path = ""
-favicon_path = ""
-
-[pipeline]
-id = "corp_bond_returns"
-pipeline_name = "Corporate Bond Returns"
-pipeline_description = "Corporate bond returns from OpenBondAssetPricing.com (TRACE data), including individual bond returns and credit spread-sorted portfolios"
-lead_pipeline_developer = "Jeremy Bejarano"
-contributors = ["Jeremy Bejarano"]
-runs_on = "Windows/Linux/MacOS"
-git_repo_URL = "https://github.com/ftsfr/corp_bond_returns"
-README_file_path = "./README.md"
-
-[notebooks]
+os_compatibility = [
+    "Windows",
+    "Linux",
+    "MacOS",
+]
 
 [notebooks.summary_corp_bond_returns]
-notebook_name = "summary_corp_bond_returns"
-notebook_description = "Summary statistics and visualization of corporate bond returns"
-notebook_path = "_output/summary_corp_bond_returns.ipynb"
-is_publishable = true
-
-[charts]
-
-[charts.corp_bond_returns_replication]
-chart_name = "Corporate Bond Portfolio Returns"
-short_description_chart = "Corporate bond portfolio returns by credit spread decile from TRACE data"
-dataframe_id = "ftsfr_corp_bond_portfolio_returns"
-path_to_html_chart = "./_output/corp_bond_returns_replication.html"
-path_to_excel_chart = ""
-topic_tags = ["corporate", "bonds", "returns", "credit", "replication"]
-past_publications = ["He, Kelly, and Manela (2017) - Intermediary Asset Pricing", "Dickerson, Mueller, and Robotti (2023) - Priced Risk in Corporate Bonds"]
-chart_docs_str = """
-## Corporate Bond Portfolio Returns
-
-Monthly returns for portfolios sorted by credit spread decile.
-
-### Data Source
-
-OpenBondAssetPricing.com (TRACE data with MMN adjustments)
-
-### Portfolio Construction
-
-Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
-"""
-
-[charts.corp_bond_cumulative_returns]
-chart_name = "Corporate Bond Portfolio Cumulative Returns"
-short_description_chart = "Cumulative returns showing growth of $1 invested in corporate bond portfolios"
-dataframe_id = "ftsfr_corp_bond_portfolio_returns"
-path_to_html_chart = "./_output/corp_bond_cumulative_returns.html"
-path_to_excel_chart = ""
-topic_tags = ["corporate", "bonds", "cumulative returns", "credit", "replication"]
-past_publications = ["He, Kelly, and Manela (2017) - Intermediary Asset Pricing", "Dickerson, Mueller, and Robotti (2023) - Priced Risk in Corporate Bonds"]
-chart_docs_str = """
-## Corporate Bond Portfolio Cumulative Returns
-
-Cumulative returns showing growth of $1 invested in corporate bond portfolios sorted by credit spread decile.
-
-### Portfolio Construction
-
-Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
-
-### Calculation
-
-Cumulative return = Product of (1 + monthly return) over time
-"""
-
-[dataframes]
+name = "summary_corp_bond_returns"
+description = "Summary statistics and visualization of corporate bond returns"
+path = "_output/summary_corp_bond_returns.ipynb"
+publishable = true
 
 [dataframes.ftsfr_corp_bond_returns]
-dataframe_name = "ftsfr_corp_bond_returns"
-short_description_df = "Individual corporate bond monthly returns in long format"
-data_sources = ["OpenBondAssetPricing.com"]
-data_providers = ["OpenBondAssetPricing"]
-need_to_contact_provider = ["no"]
-data_on_pre_approved_list = ["No"]
-links_to_data_providers = ["https://openbondassetpricing.com/"]
-topic_tags = ["corporate", "bonds", "returns", "credit"]
-type_of_data_access = ["Public"]
-data_license = "Public"
-license_expiration_date = ""
-provider_contact_info = ""
-restriction_on_use = "No"
-how_is_pulled = "Downloaded from OpenBondAssetPricing.com"
-path_to_parquet_data = "./_data/ftsfr_corp_bond_returns.parquet"
-path_to_excel_data = ""
+name = "ftsfr_corp_bond_returns"
+description = "Individual corporate bond monthly returns in long format"
+sources = [
+    "OpenBondAssetPricing.com",
+]
+providers = [
+    "OpenBondAssetPricing",
+]
+contact_required = [
+    "no",
+]
+pre_approved = [
+    "No",
+]
+provider_links = [
+    "https://openbondassetpricing.com/",
+]
+tags = [
+    "corporate",
+    "bonds",
+    "returns",
+    "credit",
+]
+access_types = [
+    "Public",
+]
+license = "Public"
+restrictions = "No"
+pull_method = "Downloaded from OpenBondAssetPricing.com"
+path = "./_data/ftsfr_corp_bond_returns.parquet"
 date_col = "ds"
-dataframe_docs_str = """
+docs = """
 ## Individual Corporate Bond Monthly Returns
 
 This dataset contains monthly returns for individual corporate bonds from TRACE data.
@@ -116,24 +73,39 @@ OpenBondAssetPricing.com (TRACE data with MMN adjustments)
 """
 
 [dataframes.ftsfr_corp_bond_portfolio_returns]
-dataframe_name = "ftsfr_corp_bond_portfolio_returns"
-short_description_df = "Corporate bond portfolio returns grouped by credit spread deciles"
-data_sources = ["OpenBondAssetPricing.com"]
-data_providers = ["OpenBondAssetPricing"]
-need_to_contact_provider = ["no"]
-data_on_pre_approved_list = ["No"]
-links_to_data_providers = ["https://openbondassetpricing.com/"]
-topic_tags = ["corporate", "bonds", "portfolios", "returns", "credit"]
-type_of_data_access = ["Public"]
-data_license = "Public"
-license_expiration_date = ""
-provider_contact_info = ""
-restriction_on_use = "No"
-how_is_pulled = "Downloaded from OpenBondAssetPricing.com"
-path_to_parquet_data = "./_data/ftsfr_corp_bond_portfolio_returns.parquet"
-path_to_excel_data = ""
+name = "ftsfr_corp_bond_portfolio_returns"
+description = "Corporate bond portfolio returns grouped by credit spread deciles"
+sources = [
+    "OpenBondAssetPricing.com",
+]
+providers = [
+    "OpenBondAssetPricing",
+]
+contact_required = [
+    "no",
+]
+pre_approved = [
+    "No",
+]
+provider_links = [
+    "https://openbondassetpricing.com/",
+]
+tags = [
+    "corporate",
+    "bonds",
+    "portfolios",
+    "returns",
+    "credit",
+]
+access_types = [
+    "Public",
+]
+license = "Public"
+restrictions = "No"
+pull_method = "Downloaded from OpenBondAssetPricing.com"
+path = "./_data/ftsfr_corp_bond_portfolio_returns.parquet"
 date_col = "ds"
-dataframe_docs_str = """
+docs = """
 ## Corporate Bond Portfolio Returns
 
 This dataset contains portfolio returns grouped by credit spread deciles.
@@ -157,4 +129,64 @@ This dataset contains portfolio returns grouped by credit spread deciles.
 ### Data Source
 
 OpenBondAssetPricing.com (TRACE data with MMN adjustments)
+"""
+
+[charts.corp_bond_returns_replication]
+name = "Corporate Bond Portfolio Returns"
+description = "Corporate bond portfolio returns by credit spread decile from TRACE data"
+dataframe = "ftsfr_corp_bond_portfolio_returns"
+path = "./_output/corp_bond_returns_replication.html"
+tags = [
+    "corporate",
+    "bonds",
+    "returns",
+    "credit",
+    "replication",
+]
+publications = [
+    "He, Kelly, and Manela (2017) - Intermediary Asset Pricing",
+    "Dickerson, Mueller, and Robotti (2023) - Priced Risk in Corporate Bonds",
+]
+docs = """
+## Corporate Bond Portfolio Returns
+
+Monthly returns for portfolios sorted by credit spread decile.
+
+### Data Source
+
+OpenBondAssetPricing.com (TRACE data with MMN adjustments)
+
+### Portfolio Construction
+
+Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
+"""
+
+[charts.corp_bond_cumulative_returns]
+name = "Corporate Bond Portfolio Cumulative Returns"
+description = "Cumulative returns showing growth of $1 invested in corporate bond portfolios"
+dataframe = "ftsfr_corp_bond_portfolio_returns"
+path = "./_output/corp_bond_cumulative_returns.html"
+tags = [
+    "corporate",
+    "bonds",
+    "cumulative returns",
+    "credit",
+    "replication",
+]
+publications = [
+    "He, Kelly, and Manela (2017) - Intermediary Asset Pricing",
+    "Dickerson, Mueller, and Robotti (2023) - Priced Risk in Corporate Bonds",
+]
+docs = """
+## Corporate Bond Portfolio Cumulative Returns
+
+Cumulative returns showing growth of $1 invested in corporate bond portfolios sorted by credit spread decile.
+
+### Portfolio Construction
+
+Decile 1 = lowest spread (safest), Decile 10 = highest spread (riskiest)
+
+### Calculation
+
+Cumulative return = Product of (1 + monthly return) over time
 """
